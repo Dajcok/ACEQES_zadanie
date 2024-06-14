@@ -86,7 +86,7 @@ describe("Activity Endpoints", () => {
     expect(response.body).toHaveProperty("message", "Invalid request payload");
   });
 
-  it("/start should success for current user", async () => {
+  it("/start should succeed for current user", async () => {
     //Keď nedefinujeme username, user sa getne z tokena
     const response = await authenticatedRequest(
       "post",
@@ -181,7 +181,7 @@ describe("Activity Endpoints", () => {
     );
   });
 
-  it("/stop should success for current user", async () => {
+  it("/stop should succeed for current user", async () => {
     const response = await authenticatedRequest(
       "post",
       ACTIVITY_BASE_ROUTE + "/stop",
@@ -195,7 +195,7 @@ describe("Activity Endpoints", () => {
     expect(response.body).toHaveProperty("message", "Activity stopped");
   });
 
-  it("/stop should success even after activity has already stopped", async () => {
+  it("/stop should succeed even after activity has already stopped", async () => {
     const response = await authenticatedRequest(
       "post",
       ACTIVITY_BASE_ROUTE + "/stop",
@@ -256,7 +256,7 @@ describe("Activity Endpoints", () => {
     );
   });
 
-  it("/elapsed should success for current user", async () => {
+  it("/elapsed should succeed for current user", async () => {
     const response = await authenticatedRequest(
       "get",
       ACTIVITY_BASE_ROUTE + "/elapsed/coding",
@@ -280,7 +280,7 @@ describe("Activity Endpoints", () => {
     );
   });
 
-  it("/elapsed should success for another existing user", async () => {
+  it("/elapsed should succeed for another existing user", async () => {
     const response = await authenticatedRequest(
       "get",
       ACTIVITY_BASE_ROUTE + "/elapsed/coding?username=user2",
@@ -290,7 +290,7 @@ describe("Activity Endpoints", () => {
     assertElapsedTime(response);
   });
 
-  it("/elapsed should success with running activity", async () => {
+  it("/elapsed should succeed with running activity", async () => {
     const newTestUser = await createTestUser("user4", "StrongPWD4");
     await newTestUser.startActivity("running");
 
@@ -336,7 +336,7 @@ describe("Activity Endpoints", () => {
     expect(response.body).toHaveProperty("message", "Invalid sort parameter");
   });
 
-  it("/results should success and sort by username which is default", async () => {
+  it("/results should succeed and sort by username which is default", async () => {
     const response = await authenticatedRequest(
       "get",
       ACTIVITY_BASE_ROUTE + "/results",
@@ -346,7 +346,7 @@ describe("Activity Endpoints", () => {
     assertSortedResults(response, "username");
   });
 
-  it("/results should success and sort by activity", async () => {
+  it("/results should succeed and sort by activity", async () => {
     const response = await authenticatedRequest(
       "get",
       ACTIVITY_BASE_ROUTE + "/results?sort=activity",
@@ -356,7 +356,7 @@ describe("Activity Endpoints", () => {
     assertSortedResults(response, "activity");
   });
 
-  it("/results should success and sort by time", async () => {
+  it("/results should succeed and sort by time", async () => {
     const response = await authenticatedRequest(
       "get",
       ACTIVITY_BASE_ROUTE + "/results?sort=time",
