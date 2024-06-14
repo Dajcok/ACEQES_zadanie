@@ -70,7 +70,7 @@ describe("Authentication", () => {
     expect(response.body).toHaveProperty("message", "Invalid token");
   });
 
-  it("Protected route should return an token expired error", async () => {
+  it("Protected route should return a token expired error", async () => {
     const token = await getTokenForTestUser(undefined, undefined, "1ms");
 
     await new Promise((r) => setTimeout(r, 10));
