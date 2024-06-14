@@ -16,7 +16,7 @@ export interface IUserPublic extends IBaseModelPublic {
 export class UserManager extends ModelManager<User> {
   create(model: User): User {
     //Ak už existuje používateľ s rovnakým menom, vyhodíme chybu
-    if (this.filter({ username: model.username }).length > 0) {
+    if (this.find({ username: model.username }, false)) {
       throw new UniqueConstraintError("username", model.username);
     }
 

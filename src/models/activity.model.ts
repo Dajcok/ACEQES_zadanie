@@ -20,14 +20,14 @@ export interface IActivityPublic extends IBaseModelPublic {
 }
 
 export class ActivityManager extends ModelManager<Activity> {
-  create(model: Activity): Activity {
+  create(payload: Activity): Activity {
     if (
-      this.filter({ userId: model.userId, activity: model.activity }).length > 0
+      this.find({ userId: payload.userId, activity: payload.activity }, false)
     ) {
-      throw new UniqueConstraintError("activity", model.activity);
+      throw new UniqueConstraintError("activity", payload.activity);
     }
 
-    return super.create(model);
+    return super.create(payload);
   }
 }
 

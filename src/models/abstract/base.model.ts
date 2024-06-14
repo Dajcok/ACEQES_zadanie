@@ -93,7 +93,6 @@ export class BaseModel {
   public createdAt: Date;
   public updatedAt: Date;
 
-  //Nechávame možnosť explicitne definovať id pri niektorých modeloch - napr Activity
   constructor(public readonly id = uuidv4()) {
     //Pre jednoduchosť riešim vytváranie objektov v konštruktore modelu
     //V reálnom svete by takáto akcia bola asynchrónna a vykonávala by sa v samostatnej metóde
