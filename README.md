@@ -10,6 +10,12 @@ Odporúčaná verzia node: v18.13.0
 npm install
 ```
 
+Po inštalácií je potrebné doplniť SECRET_KEY do .env súboru. Tento kľúč je potrebný pre JWT tokeny. Napr.
+
+```bash
+SECRET_KEY="4f2b5a7a2b8d3c4e9f1a6b2c7d8e9f0a"
+```
+
 
 ## Spustenie
 
