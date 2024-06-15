@@ -58,7 +58,7 @@ export class BaseRepository<
   }
 
   create(payload: Entity): Entity {
-    //Ak už máme payload s daným id
+    //Ak už máme payload s daným id vyhodíme error - táto kontrola je prakticky redundantná, keďže id generujeme pomocou uuid
     if (this.get(payload.id, false))
       throw new UniqueConstraintError("id", payload.id);
 
