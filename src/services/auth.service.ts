@@ -1,4 +1,4 @@
-import { User } from "../models/user.model";
+import { User } from "../entities/user.entity";
 import { ForbiddenError, UnauthorizedError } from "../errors/api.errors";
 import { NotFoundError } from "../errors/api.errors";
 import jwt from "jsonwebtoken";

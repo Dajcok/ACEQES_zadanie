@@ -4,7 +4,7 @@ import _activityService, {
 } from "../services/activity.service";
 import { Response } from "express";
 import { ApiError, UnknownServerError } from "../errors/api.errors";
-import { User } from "../models/user.model";
+import { User } from "../entities/user.entity";
 
 export class ActivityController {
   constructor(private activityService: ActivityService = _activityService) {}

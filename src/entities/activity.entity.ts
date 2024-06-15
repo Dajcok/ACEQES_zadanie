@@ -1,13 +1,9 @@
-import {
-  BaseModel,
-  IBaseModelPublic,
-  ModelManager,
-} from "./abstract/base.model";
-import { UniqueConstraintError } from "../errors/api.errors";
+import { BaseEntity, IBaseEntityPublic } from "./base.entity";
+import { ActivityRepository } from "../repositories/activity.repository";
 
 export type ActivityStatus = "running" | "stopped";
 
-export interface IActivityPublic extends IBaseModelPublic {
+export interface IActivityPublic extends IBaseEntityPublic {
   startedAt: Date;
   endedAt: Date | null;
   status: ActivityStatus;
@@ -19,20 +15,8 @@ export interface IActivityPublic extends IBaseModelPublic {
   activity: string;
 }
 
-export class ActivityManager extends ModelManager<Activity> {
-  create(payload: Activity): Activity {
-    if (
-      this.find({ userId: payload.userId, activity: payload.activity }, false)
-    ) {
-      throw new UniqueConstraintError("activity", payload.activity);
-    }
-
-    return super.create(payload);
-  }
-}
-
-export class Activity extends BaseModel implements IActivityPublic {
-  private static _manager: ModelManager<Activity>;
+export class Activity extends BaseEntity implements IActivityPublic {
+  private static _manager: ActivityRepository;
   private _startedAt = new Date();
   private _endedAt: Date | null = null;
   private _status: ActivityStatus = "running";
@@ -45,14 +29,14 @@ export class Activity extends BaseModel implements IActivityPublic {
     super();
   }
 
-  public static get manager(): ActivityManager {
+  public static get manager(): ActivityRepository {
     if (!Activity._manager) {
-      Activity._manager = new ActivityManager();
+      Activity._manager = new ActivityRepository();
     }
     return Activity._manager;
   }
 
-  protected get manager(): ActivityManager {
+  protected get manager(): ActivityRepository {
     return Activity.manager;
   }
 

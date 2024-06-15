@@ -1,4 +1,4 @@
-import { User } from "../models/user.model";
+import { User } from "../entities/user.entity";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { NotFoundError } from "../errors/api.errors";

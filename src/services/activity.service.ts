@@ -1,5 +1,5 @@
-import { User } from "../models/user.model";
-import { Activity, ActivityStatus } from "../models/activity.model";
+import { User } from "../entities/user.entity";
+import { Activity, ActivityStatus } from "../entities/activity.entity";
 import { ForbiddenError, NotFoundError } from "../errors/api.errors";
 
 export interface ActivityPayload {

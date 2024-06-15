@@ -1,7 +1,7 @@
 import request from "supertest";
 import app from "../src/server";
 import config from "../src/settings";
-import { User } from "../src/models/user.model";
+import { User } from "../src/entities/user.entity";
 
 export function createTestUser(
   username: string = config.TEST_USER_NAME,

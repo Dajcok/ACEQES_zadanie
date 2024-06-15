@@ -1,43 +1,16 @@
-import {
-  BaseModel,
-  IBaseModelPublic,
-  ModelManager,
-} from "./abstract/base.model";
-import { Activity } from "./activity.model";
+import { BaseEntity, IBaseEntityPublic } from "./base.entity";
+import { Activity } from "./activity.entity";
 import bcrypt from "bcrypt";
-import { NotFoundError, UniqueConstraintError } from "../errors/api.errors";
 import config from "../settings";
+import { UserRepository } from "../repositories/user.repository";
 
-export interface IUserPublic extends IBaseModelPublic {
+export interface IUserPublic extends IBaseEntityPublic {
   username: string;
   activities: Activity[];
 }
 
-export class UserManager extends ModelManager<User> {
-  create(model: User): User {
-    //Ak už existuje používateľ s rovnakým menom, vyhodíme chybu
-    if (this.find({ username: model.username }, false)) {
-      throw new UniqueConstraintError("username", model.username);
-    }
-
-    return super.create(model);
-  }
-
-  //Rozširujeme ModelManagera o metódu, ktorá nám umožní vyhľadávať používateľov podľa mena a hesla
-  //Cez filter by to možné nebolo, nakoľko je heslo private
-  async findByCredentials(username: string, password: string): Promise<User> {
-    for (const user of this._data) {
-      if (user.username === username && (await user.checkPassword(password))) {
-        return user;
-      }
-    }
-
-    throw new NotFoundError("User not found");
-  }
-}
-
-export class User extends BaseModel implements IUserPublic {
-  private static _manager: ModelManager<User>;
+export class User extends BaseEntity implements IUserPublic {
+  private static _manager: UserRepository;
   private _activities: string[] = [];
   private _runningActivity: Activity | null = null;
 
@@ -51,14 +24,14 @@ export class User extends BaseModel implements IUserPublic {
     super();
   }
 
-  static get manager(): UserManager {
+  static get manager(): UserRepository {
     if (!User._manager) {
-      User._manager = new UserManager();
+      User._manager = new UserRepository();
     }
-    return User._manager as UserManager;
+    return User._manager as UserRepository;
   }
 
-  protected get manager(): UserManager {
+  protected get manager(): UserRepository {
     return User.manager;
   }
 

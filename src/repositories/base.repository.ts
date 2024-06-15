@@ -1,13 +1,12 @@
-import { v4 as uuidv4 } from "uuid";
-import { NotFoundError, UniqueConstraintError } from "../../errors/api.errors";
-import { ImplementationNeededError } from "../../errors/general.errors";
+import { NotFoundError, UniqueConstraintError } from "../errors/api.errors";
+import { BaseEntity, IBaseEntityPublic } from "../entities/base.entity";
 
-export class ModelManager<
-  Model extends BaseModel,
+export class BaseRepository<
+  Model extends BaseEntity,
   ModelPayload extends Omit<
-    IBaseModelPublic,
+    IBaseEntityPublic,
     "createdAt" | "updatedAt" | "id"
-  > = Omit<IBaseModelPublic, "createdAt" | "updatedAt" | "id">,
+  > = Omit<IBaseEntityPublic, "createdAt" | "updatedAt" | "id">,
 > {
   //V reálnom svete by bolo toto pole zosynchronizované s databázou
   protected _data: Model[] = [];
@@ -78,59 +77,5 @@ export class ModelManager<
       );
     model.updatedAt = new Date();
     return model;
-  }
-}
-
-export interface IBaseModelPublic {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-type Constructor<T> = new (...args: any[]) => T;
-
-export class BaseModel {
-  public createdAt: Date;
-  public updatedAt: Date;
-
-  constructor(public readonly id = uuidv4()) {
-    //Pre jednoduchosť riešim vytváranie objektov v konštruktore modelu
-    //V reálnom svete by takáto akcia bola asynchrónna a vykonávala by sa v samostatnej metóde
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
-  }
-
-  protected get manager(): ModelManager<BaseModel> {
-    return BaseModel.manager;
-  }
-
-  static get manager(): ModelManager<BaseModel> {
-    throw new ImplementationNeededError(
-      `Manager for ${this.name} not implemented !`,
-    );
-  }
-
-  //Všeobecná metóda na vytvorenie modelu, kt. dedí od BaseModel
-  //Argumenty sú vždy zhodné s konštruktorom modelu
-  static async create<T extends BaseModel>(
-    this: Constructor<T>,
-    ...args: any[]
-  ): Promise<T> {
-    const model = new this(...args);
-    model.manager.create(model);
-    return model;
-  }
-
-  toRepresentation(): IBaseModelPublic {
-    return {
-      id: this.id,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-    };
-  }
-
-  save() {
-    const { id, createdAt, updatedAt, ...payload } = this.toRepresentation();
-    return this.manager.update(this.id, payload as any);
   }
 }

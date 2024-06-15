@@ -74,7 +74,7 @@ describe("Activity Endpoints", () => {
   });
 
   it("/start should throw invalid payload error", async () => {
-    //Nepošleme payload a teda joi validácia zlyhá
+    //Nepošleme payload, a teda joi validácia zlyhá
     const response = await authenticatedRequest(
       "post",
       ACTIVITY_BASE_ROUTE + "/start",
@@ -132,7 +132,7 @@ describe("Activity Endpoints", () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty(
       "message",
-      `Object of UserManager with filter {\"username\":\"nonexistent\"} not found !`,
+      `Object of UserRepository with filter {\"username\":\"nonexistent\"} not found !`,
     );
   });
 
@@ -177,7 +177,7 @@ describe("Activity Endpoints", () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty(
       "message",
-      `Object of ActivityManager with filter {\"activity\":\"coding1\",\"userId\":\"${testUserId}\"} not found !`,
+      `Object of ActivityRepository with filter {\"activity\":\"coding1\",\"userId\":\"${testUserId}\"} not found !`,
     );
   });
 
@@ -223,7 +223,7 @@ describe("Activity Endpoints", () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty(
       "message",
-      `Object of UserManager with filter {\"username\":\"nonexistent\"} not found !`,
+      `Object of UserRepository with filter {\"username\":\"nonexistent\"} not found !`,
     );
   });
 
@@ -252,7 +252,7 @@ describe("Activity Endpoints", () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty(
       "message",
-      `Object of ActivityManager with filter {\"activity\":\"nonexistent\",\"userId\":\"${testUserId}\"} not found !`,
+      `Object of ActivityRepository with filter {\"activity\":\"nonexistent\",\"userId\":\"${testUserId}\"} not found !`,
     );
   });
 
@@ -276,7 +276,7 @@ describe("Activity Endpoints", () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty(
       "message",
-      `Object of UserManager with filter {\"username\":\"nonexistent\"} not found !`,
+      `Object of UserRepository with filter {\"username\":\"nonexistent\"} not found !`,
     );
   });
 

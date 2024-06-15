@@ -1,5 +1,5 @@
 import express from "express";
-import { User } from "./models/user.model";
+import { User } from "./entities/user.entity";
 import router from "./routes/router";
 import cookieParser from "cookie-parser";
 import config from "./settings";
