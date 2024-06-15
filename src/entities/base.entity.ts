@@ -15,7 +15,7 @@ export class BaseEntity {
   public updatedAt: Date;
 
   constructor(public readonly id = uuidv4()) {
-    //Pre jednoduchosť riešim vytváranie objektov v konštruktore modelu
+    //Pre jednoduchosť riešim vytváranie objektov v konštruktore entity
     //V reálnom svete by takáto akcia bola asynchrónna a vykonávala by sa v samostatnej metóde
     this.createdAt = new Date();
     this.updatedAt = new Date();
@@ -31,15 +31,15 @@ export class BaseEntity {
     );
   }
 
-  //Všeobecná metóda na vytvorenie modelu, kt. dedí od BaseModel
-  //Argumenty sú vždy zhodné s konštruktorom modelu
+  //Všeobecná metóda na vytvorenie entity, kt. dedí od BaseEntity
+  //Argumenty sú vždy zhodné s konštruktorom vytváranej entity
   static async create<T extends BaseEntity>(
     this: Constructor<T>,
     ...args: any[]
   ): Promise<T> {
-    const model = new this(...args);
-    model.manager.create(model);
-    return model;
+    const entity = new this(...args);
+    entity.manager.create(entity);
+    return entity;
   }
 
   toRepresentation(): IBaseEntityPublic {
